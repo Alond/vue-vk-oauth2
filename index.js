@@ -16,7 +16,7 @@ let vkAuth = (function () {
   }
 
   function initClient (config) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       window.VK.init(config)
       resolve(window.VK)
     })
@@ -26,9 +26,12 @@ let vkAuth = (function () {
     if (!(this instanceof Auth)) {
       return new Auth()
     }
-    this.isAuthorized = false
 
-    this.load = (config) => {
+    let method = null
+    let prompt = {}
+    let widget = null
+
+    this.load = config => {
       installClient()
         .then(() => {
           return initClient(config)
@@ -60,11 +63,42 @@ let vkAuth = (function () {
       })
     }
 
+    this.revokeGrants = (successCallback, errorCallback) => {
+      return new Promise((resolve, reject) => {
+        window.VK.Auth.revokeGrants(function (response) {
+          resolve(response)
+        })
+      })
+    }
+
     this.getLoginStatus = (successCallback, errorCallback) => {
       return new Promise((resolve, reject) => {
-        window.VK.Auth.getLoginStatus(function (response) {
-          resolve(response.status === 'connected')
+        window.VK.Auth.getLoginStatus(response => {
+          resolve(response)
         })
+      })
+    }
+
+    this.getSession = () => {
+      return new Promise((resolve, reject) => {
+        let result = window.VK.Auth.getSession()
+        if (result) {
+          resolve(result)
+        } else {
+          this.getLoginStatus().then(response => resolve(response.session))
+        }
+      })
+    }
+
+    this.Api = (method, prompt) => {
+      return new Promise((resolve, reject) => {
+        window.VK.Api.call(method, prompt, function (r) {
+          if (r.response) {
+            resolve(r.response);
+          } else {
+            reject('VK Api: not allowed')
+          }
+        });
       })
     }
   }

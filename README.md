@@ -32,6 +32,9 @@ new Vue(VKAuth, {apiId: ВАШ_VK_APP_ID})
     <button @click="vkLogin">vkLogin</button>
     <button @click="vkLogout">vkLogout</button>
     <button @click="vkGetLoginStatus">vkGetLoginStatus</button>
+    <button @click="vkRevokeGrants">vkRevokeGrants</button>
+    <button @click="vkGetSession">vkGetSession</button>
+    <button @click="vkApiMethodExample">vkApiMethodExample</button>
   </div>
 </template>
 
@@ -45,21 +48,59 @@ new Vue(VKAuth, {apiId: ВАШ_VK_APP_ID})
 
 export default {
   methods: {
-    vkLogin() {
-      this.$vkAuth.login(function(response) => {
-        // вернутся данные указанные в https://vk.com/dev/openapi?f=3.1.%20VK.Auth.login
-      })
+    vkLogin () {
+      this.$vkAuth.login()
+        .then(response => {
+          console.log('vklogin', response)
+        })
+        .catch(error => {
+          console.error(error)
+        })
     },
-    vkLogout() {
-      this.$vkAuth.logout(function(response) => {
-        // вернутся данные https://vk.com/dev/openapi?f=3.1.%20VK.Auth.logout
-      })
-    }
-    vkGetLoginStatus() {
-      this.$vkAuth.getLoginStatus(function(response) => {
-        // вернется true/false
-      })
-    }
+    vkLogout () {
+      this.$vkAuth.logout()
+        .then(response => {
+          console.log('vklogout', response)
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    },
+    vkGetLoginStatus () {
+      this.$vkAuth.getLoginStatus()
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    },
+    vkRevokeGrants () {
+      this.$vkAuth.revokeGrants()
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    },
+    vkGetSession () {
+      this.$vkAuth.getSession()
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    },
+    vkApiMethodExample () {
+      this.$vkAuth.Api('users.get', {user_ids: VK_USER_ID, v: '5.73'})
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.error(error)
+        })
   }
 }
 <script>
