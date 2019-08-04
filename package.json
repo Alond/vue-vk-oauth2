@@ -1,4 +1,25 @@
 {
     "name": "@dyadikov/vue-vk-oauth2",
-    "version": "1.0.5"
+    "version": "1.0.6",
+    "description": "unofficial vk openapi vue implementation",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DenisYadikov/vue-vk-oauth2.git"
+    },
+    "author": "Denis Yadikov <denisyadikov@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/DenisYadikov/vue-vk-oauth2/issues"
+    },
+    "homepage": "https://github.com/DenisYadikov/vue-vk-oauth2#readme",
+    "keywords": [
+        "vk",
+        "vkontakte",
+        "openapi",
+        "api",
+        "oauth",
+        "oauth2",
+        "widgets"
+    ]
 }
