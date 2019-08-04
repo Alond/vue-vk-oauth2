@@ -27,14 +27,17 @@ let vkAuth = (function () {
       return new Auth()
     }
 
-    let method = null
-    let prompt = {}
-    let widget = null
-
     this.load = config => {
       installClient()
         .then(() => {
           return initClient(config)
+        })
+        .then(() => {
+          if (config.widgets) {
+            config.widgets.forEach((widget) => {
+              this.Widget(widget)
+            })
+          }
         })
     }
 
@@ -100,6 +103,11 @@ let vkAuth = (function () {
           }
         });
       })
+    }
+
+    this.Widget = (options) => {
+      console.log(options)
+      window.VK.Widgets[options.widget](options.selector, options.props, -20003922)
     }
   }
 

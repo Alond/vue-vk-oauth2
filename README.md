@@ -6,6 +6,12 @@
 
 github https://github.com/DenisYadikov/vue-vk-oauth2
 
+#### Возможности
+
+1. Авторизация пользователя
+2. Вызов методов API ВКонтакте, список: https://vk.com/dev/methods
+3. Виджеты
+
 #### Установка
 
 ```
@@ -14,16 +20,20 @@ npm i @dyadikov/vue-vk-oauth2
 
 #### Подключение
 
-Подключать пакет желательно но необязательно непосредственно в компоненте, где он будет использоваться, т.е. в компоненте регистрации/аутентификации.
-
-Подключть пакет в проект:
+Подключить пакет в проект, виджеты описываются опционально:
 ```
 import VKAuth from '@dyadikov/vue-vk-oauth2'
-...
-new Vue(VKAuth, {apiId: ВАШ_VK_APP_ID})
+
+new Vue(VKAuth, {apiId: YOUR_VK_APP_ID,
+  widgets: [{
+    widget: 'ContactUs',
+    selector: 'vk_contact_us',
+    props: {text: 'Задайте свой вопрос'}
+  }]
+})
 ```
 
-После подключения вы можете обращаться к инстансу через глобальную переменную
+После подключения вы можете обращаться к инстансу через глобальную переменную $vkAuth
 
 #### Использование
 ```
@@ -35,6 +45,8 @@ new Vue(VKAuth, {apiId: ВАШ_VK_APP_ID})
     <button @click="vkRevokeGrants">vkRevokeGrants</button>
     <button @click="vkGetSession">vkGetSession</button>
     <button @click="vkApiMethodExample">vkApiMethodExample</button>
+    <!-- VK Widget Example -->
+    <div id="vk_contact_us"></div>
   </div>
 </template>
 
@@ -44,7 +56,13 @@ new Vue(VKAuth, {apiId: ВАШ_VK_APP_ID})
 import Vue from 'vue'
 import VKAuth from '@dyadikov/vue-vk-oauth2'
 
-new Vue(VKAuth, {apiId: ВАШ_VK_APP_ID})
+new Vue(VKAuth, {apiId: YOUR_VK_APP_ID,
+  widgets: [{
+    widget: 'ContactUs',
+    selector: 'vk_contact_us',
+    props: {text: 'Задайте свой вопрос'}
+  }]
+})
 
 export default {
   methods: {
