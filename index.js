@@ -19,6 +19,7 @@ let vkAuth = (function () {
     return new Promise(resolve => {
       window.VK.init(config)
       resolve(window.VK)
+      config.callback(Auth())
     })
   }
 
@@ -75,6 +76,7 @@ let vkAuth = (function () {
     }
 
     this.getLoginStatus = (successCallback, errorCallback) => {
+      console.log('getLoginStatus')
       return new Promise((resolve, reject) => {
         window.VK.Auth.getLoginStatus(response => {
           resolve(response)
