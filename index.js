@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 let vkAuth = (function () {
   function installClient () {
     let apiUrl = 'https://vk.com/js/api/openapi.js?162'
@@ -114,9 +116,16 @@ let vkAuth = (function () {
   return Auth()
 })()
 
-function installVkAuthPlugin (Vue, options) {
-  /* eslint-disable */
-  //set config
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+  for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+  for (var r = Array(s), k = 0, i = 0; i < il; i++)
+    for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+      r[k] = a[j];
+  return r;
+};
+
+function installVkAuthPlugin(vue, options) {
+  var _a;
   let VkAuthConfig = null
   let GoogleAuthDefaultConfig = {  }
   if (typeof options === 'object') {
@@ -127,17 +136,41 @@ function installVkAuthPlugin (Vue, options) {
   } else {
     console.warn('invalid option type. Object type accepted only')
   }
+  vkAuth.load(options)
 
-  // Install Vue plugin
-  Vue.vkAuth = vkAuth
-  Object.defineProperties(Vue.prototype, {
-    $vkAuth: {
-      get: function () {
-        return Vue.vkAuth
-      }
+  //var vkAuth = options ? Swal.mixin(options) : Swal;
+  var vkAuthFunction = function () {
+    var _a;
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+      args[_i] = arguments[_i];
     }
-  })
-  Vue.vkAuth.load(options)
-}
+    return (_a = vkAuth.fire).call.apply(_a, __spreadArrays([vkAuth], args));
+  };
+  var methodName;
+  for (methodName in vkAuth) {
+    if (Object.prototype.hasOwnProperty.call(vkAuth, methodName) &&
+        typeof vkAuth[methodName] === 'function') {
+      vkAuthFunction[methodName] = (function (method) {
+        return function () {
+          var _a;
+          var args = [];
+          for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+          }
+          return (_a = vkAuth[method]).call.apply(_a, __spreadArrays([vkAuth], args));
+        };
+      })(methodName);
+    }
+  }
+  if (((_a = vue.config) === null || _a === void 0 ? void 0 : _a.globalProperties) && !vue.config.globalProperties.$vkAuth) {
+    vue.config.globalProperties.$vkAuth = vkAuthFunction;
+    vue.provide('$vkAuth', vkAuthFunction);
+  }
+  else if (!Object.prototype.hasOwnProperty.call(vue, 'vkAuth')) {
+    vue.prototype.$vkAuth = vkAuthFunction;
+    vue['vkAuth'] = vkAuthFunction;
+  }
+};
 
 export default installVkAuthPlugin
