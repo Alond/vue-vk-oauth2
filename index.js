@@ -1,5 +1,3 @@
-import Swal from "sweetalert2";
-
 let vkAuth = (function () {
   function installClient () {
     let apiUrl = 'https://vk.com/js/api/openapi.js?162'
